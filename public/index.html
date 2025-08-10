@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payroll Management System</title>
+    <meta name="description" content="Simple and secure payroll management system for tracking employees and generating payslips">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1>💼 Payroll Management</h1>
+            <div class="auth-status" id="authStatus">
+                <span id="authIndicator">🔒 Admin Mode: <span id="authState">Off</span></span>
+                <button id="authToggle" class="btn btn-sm">Login</button>
+            </div>
+        </header>
+
+        <!-- Navigation -->
+        <nav class="nav-tabs">
+            <button class="nav-btn active" data-tab="employees" data-testid="tab-employees">Employees</button>
+            <button class="nav-btn" data-tab="payroll" data-testid="tab-payroll">Payroll</button>
+            <button class="nav-btn" data-tab="payslips" data-testid="tab-payslips">Payslips</button>
+        </nav>
+
+        <!-- Employees Tab -->
+        <div id="employees" class="tab-content active">
+            <div class="section">
+                <h2>Add New Employee</h2>
+                <form id="employeeForm" class="form">
+                    <div class="form-group">
+                        <label for="empCode">Employee Code:</label>
+                        <input type="text" id="empCode" name="employee_code" required data-testid="input-employee-code">
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="firstName">First Name:</label>
+                            <input type="text" id="firstName" name="first_name" required data-testid="input-first-name">
+                        </div>
+                        <div class="form-group">
+                            <label for="lastName">Last Name:</label>
+                            <input type="text" id="lastName" name="last_name" required data-testid="input-last-name">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="designation">Designation:</label>
+                            <input type="text" id="designation" name="designation" required data-testid="input-designation">
+                        </div>
+                        <div class="form-group">
+                            <label for="department">Department:</label>
+                            <input type="text" id="department" name="department" required data-testid="input-department">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" name="email" required data-testid="input-email">
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="bankAccount">Bank Account:</label>
+                            <input type="text" id="bankAccount" name="bank_account" required data-testid="input-bank-account">
+                        </div>
+                        <div class="form-group">
+                            <label for="salary">Salary ($):</label>
+                            <input type="number" id="salary" name="salary" step="0.01" min="0" required data-testid="input-salary">
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary" data-testid="button-add-employee">Add Employee</button>
+                </form>
+            </div>
+
+            <div class="section">
+                <h2>Employee List</h2>
+                <div id="employeesList" class="employees-list" data-testid="list-employees">
+                    <div class="loading" data-testid="loading-employees">Loading employees...</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Payroll Tab -->
+        <div id="payroll" class="tab-content">
+            <div class="section">
+                <h2>Create Payroll Entry</h2>
+                <form id="payrollForm" class="form">
+                    <div class="form-group">
+                        <label for="employeeSelect">Select Employee:</label>
+                        <select id="employeeSelect" name="employee_id" required data-testid="select-employee">
+                            <option value="">Choose an employee...</option>
+                        </select>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="payPeriodStart">Pay Period Start:</label>
+                            <input type="date" id="payPeriodStart" name="pay_period_start" required data-testid="input-pay-period-start">
+                        </div>
+                        <div class="form-group">
+                            <label for="payPeriodEnd">Pay Period End:</label>
+                            <input type="date" id="payPeriodEnd" name="pay_period_end" required data-testid="input-pay-period-end">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="grossPay">Gross Pay ($):</label>
+                            <input type="number" id="grossPay" name="gross_pay" step="0.01" min="0" required data-testid="input-gross-pay">
+                        </div>
+                        <div class="form-group">
+                            <label for="deductions">Deductions ($):</label>
+                            <input type="number" id="deductions" name="deductions" step="0.01" min="0" value="0" data-testid="input-deductions">
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary" data-testid="button-create-payroll">Create Payroll</button>
+                </form>
+            </div>
+
+            <div class="section">
+                <h2>Payroll Entries</h2>
+                <div id="payrollsList" class="payrolls-list" data-testid="list-payrolls">
+                    <div class="loading" data-testid="loading-payrolls">Loading payrolls...</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Payslips Tab -->
+        <div id="payslips" class="tab-content">
+            <div class="section">
+                <h2>View Payslip</h2>
+                <div class="form-group">
+                    <label for="payrollSelect">Select Payroll Entry:</label>
+                    <select id="payrollSelect" data-testid="select-payroll-entry">
+                        <option value="">Choose a payroll entry...</option>
+                    </select>
+                </div>
+                <div id="payslipDisplay" class="payslip" data-testid="payslip-display">
+                    <div class="no-data" data-testid="text-no-payslip">Select a payroll entry to view the payslip</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Message Display -->
+        <div id="message" class="message" data-testid="message-display"></div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
